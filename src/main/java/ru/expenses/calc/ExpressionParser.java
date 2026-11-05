@@ -93,9 +93,9 @@ class ExpressionParser {
             char ch = expression.charAt(i);
             if (Character.isWhitespace(ch)) {
                 i++;
-            } else if (Character.isDigit(ch) || ch == '.') {
+            } else if (isNumberChar(ch)) {
                 int start = i;
-                while (i < expression.length() && (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.')) {
+                while (i < expression.length() && isNumberChar(expression.charAt(i))) {
                     i++;
                 }
                 tokens.add(expression.substring(start, i));
@@ -105,5 +105,9 @@ class ExpressionParser {
             }
         }
         return tokens;
+    }
+
+    private static boolean isNumberChar(char ch) {
+        return Character.isDigit(ch) || ch == '.';
     }
 }

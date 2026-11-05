@@ -10,7 +10,7 @@
     java -jar target/expense-tracker-*.jar add 2026-09-01 350.50 food
     java -jar target/expense-tracker-*.jar list
 
-Команды: `add`, `list`, `total`, `month <yyyy-MM>` (сумма за месяц). Сумму можно вводить через точку или запятую.
+Команды: `add`, `list`, `total`, `month <yyyy-MM>` (сумма за месяц), `calc "<выражение>"` (калькулятор). Сумму можно вводить через точку или запятую.
 Данные хранятся в файле expenses.csv в текущей папке.
 Требуется Java 17 или новее.
 Документация: [руководство пользователя](docs/user-guide.md), [разработка и CI](docs/development.md), [Javadoc](https://pikaniki.github.io/expense-tracker-ci/).

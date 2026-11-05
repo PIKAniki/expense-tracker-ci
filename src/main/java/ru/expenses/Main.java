@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeParseException;
+import ru.expenses.calc.Calculator;
 
 /**
  * Точка входа консольного приложения.
@@ -26,6 +27,7 @@ public class Main {
                     .map(Expense::amount)
                     .reduce(BigDecimal.ZERO, BigDecimal::add));
             case "month" -> month(storage, args);
+            case "calc" -> calc(args);
             default -> printUsage();
         }
     }
@@ -62,11 +64,24 @@ public class Main {
         }
     }
 
+    private static void calc(String[] args) {
+        if (args.length != 2) {
+            printUsage();
+            return;
+        }
+        try {
+            System.out.println(new Calculator().calculate(args[1]).stripTrailingZeros().toPlainString());
+        } catch (IllegalArgumentException | ArithmeticException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
     private static void printUsage() {
         System.out.println("Usage: expense-tracker <command>");
         System.out.println("  add <yyyy-MM-dd> <amount> <category>");
         System.out.println("  list");
         System.out.println("  total");
         System.out.println("  month <yyyy-MM>");
+        System.out.println("  calc \"<expression>\"");
     }
 }

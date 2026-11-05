@@ -3,6 +3,7 @@ package ru.expenses.calc;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
 class CalculatorTest {
@@ -38,5 +39,10 @@ class CalculatorTest {
     void rejectsDivisionByZero() {
         ArithmeticException e = assertThrows(ArithmeticException.class, () -> calculator.divide(1, 0));
         assertEquals("Division by zero", e.getMessage());
+    }
+
+    @Test
+    void addsDecimalsExactly() {
+        assertEquals(new BigDecimal("0.3"), calculator.add(new BigDecimal("0.1"), new BigDecimal("0.2")));
     }
 }

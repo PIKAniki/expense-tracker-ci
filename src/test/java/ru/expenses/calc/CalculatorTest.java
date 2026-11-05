@@ -39,7 +39,7 @@ class CalculatorTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"12, 4, 3"})
+    @CsvSource({"12, 4, 3", "1, 3, 0.3333333333"})
     void dividesNumbers(String a, String b, String expected) {
         assertResult(expected, calculator.divide(n(a), n(b)));
     }

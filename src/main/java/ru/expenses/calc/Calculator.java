@@ -1,6 +1,7 @@
 package ru.expenses.calc;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Calculator {
 
@@ -20,6 +21,6 @@ public class Calculator {
         if (b.signum() == 0) {
             throw new ArithmeticException("Division by zero");
         }
-        return a.divide(b);
+        return a.divide(b, 10, RoundingMode.HALF_UP);
     }
 }

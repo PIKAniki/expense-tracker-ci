@@ -12,4 +12,9 @@ class CalculatorTest {
     void addsTwoPositiveNumbers() {
         assertEquals(5, calculator.add(2, 3));
     }
+
+    @Test
+    void addsNegativeAndPositiveNumber() {
+        assertEquals(-3, calculator.add(-4, 1));
+    }
 }

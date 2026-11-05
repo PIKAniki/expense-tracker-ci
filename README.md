@@ -15,3 +15,4 @@
 Автор: команда проекта.
 Планы развития: docs/roadmap.md.
 Глоссарий: docs/glossary.md.
+Сборка проекта проверяется в GitHub Actions.

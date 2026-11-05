@@ -68,4 +68,10 @@ class CalculatorTest {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
         assertTrue(e.getMessage().startsWith("Invalid expression"), e.getMessage());
     }
+
+    @ParameterizedTest
+    @CsvSource({"2 + 3 * 4, 14", "10 - 4 / 2, 8"})
+    void respectsOperatorPrecedence(String expression, String expected) {
+        assertResult(expected, calculator.calculate(expression));
+    }
 }

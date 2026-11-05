@@ -27,4 +27,9 @@ class CalculatorTest {
     void multipliesNumbers() {
         assertEquals(-15, calculator.multiply(3, -5));
     }
+
+    @Test
+    void dividesNumbers() {
+        assertEquals(3, calculator.divide(12, 4));
+    }
 }

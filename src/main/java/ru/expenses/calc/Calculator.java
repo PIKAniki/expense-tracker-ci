@@ -1,5 +1,7 @@
 package ru.expenses.calc;
 
+import java.math.BigDecimal;
+
 public class Calculator {
 
     public int add(int a, int b) {
@@ -19,5 +21,9 @@ public class Calculator {
             throw new ArithmeticException("Division by zero");
         }
         return a / b;
+    }
+
+    public BigDecimal add(BigDecimal a, BigDecimal b) {
+        return a.add(b);
     }
 }

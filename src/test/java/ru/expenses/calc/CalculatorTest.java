@@ -5,44 +5,48 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class CalculatorTest {
 
     private final Calculator calculator = new Calculator();
 
-    @Test
-    void addsTwoPositiveNumbers() {
-        assertEquals(5, calculator.add(2, 3));
+    private static BigDecimal n(String value) {
+        return new BigDecimal(value);
     }
 
-    @Test
-    void addsNegativeAndPositiveNumber() {
-        assertEquals(-3, calculator.add(-4, 1));
+    private static void assertResult(String expected, BigDecimal actual) {
+        assertEquals(n(expected).stripTrailingZeros(), actual.stripTrailingZeros());
     }
 
-    @Test
-    void subtractsNumbers() {
-        assertEquals(6, calculator.subtract(10, 4));
+    @ParameterizedTest
+    @CsvSource({"2, 3, 5", "-4, 1, -3", "0.1, 0.2, 0.3"})
+    void addsNumbers(String a, String b, String expected) {
+        assertResult(expected, calculator.add(n(a), n(b)));
     }
 
-    @Test
-    void multipliesNumbers() {
-        assertEquals(-15, calculator.multiply(3, -5));
+    @ParameterizedTest
+    @CsvSource({"10, 4, 6"})
+    void subtractsNumbers(String a, String b, String expected) {
+        assertResult(expected, calculator.subtract(n(a), n(b)));
     }
 
-    @Test
-    void dividesNumbers() {
-        assertEquals(3, calculator.divide(12, 4));
+    @ParameterizedTest
+    @CsvSource({"3, -5, -15"})
+    void multipliesNumbers(String a, String b, String expected) {
+        assertResult(expected, calculator.multiply(n(a), n(b)));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"12, 4, 3"})
+    void dividesNumbers(String a, String b, String expected) {
+        assertResult(expected, calculator.divide(n(a), n(b)));
     }
 
     @Test
     void rejectsDivisionByZero() {
-        ArithmeticException e = assertThrows(ArithmeticException.class, () -> calculator.divide(1, 0));
+        ArithmeticException e = assertThrows(ArithmeticException.class, () -> calculator.divide(n("1"), n("0")));
         assertEquals("Division by zero", e.getMessage());
-    }
-
-    @Test
-    void addsDecimalsExactly() {
-        assertEquals(new BigDecimal("0.3"), calculator.add(new BigDecimal("0.1"), new BigDecimal("0.2")));
     }
 }

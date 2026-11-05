@@ -4,26 +4,22 @@ import java.math.BigDecimal;
 
 public class Calculator {
 
-    public int add(int a, int b) {
-        return a + b;
-    }
-
-    public int subtract(int a, int b) {
-        return a - b;
-    }
-
-    public int multiply(int a, int b) {
-        return a * b;
-    }
-
-    public int divide(int a, int b) {
-        if (b == 0) {
-            throw new ArithmeticException("Division by zero");
-        }
-        return a / b;
-    }
-
     public BigDecimal add(BigDecimal a, BigDecimal b) {
         return a.add(b);
+    }
+
+    public BigDecimal subtract(BigDecimal a, BigDecimal b) {
+        return a.subtract(b);
+    }
+
+    public BigDecimal multiply(BigDecimal a, BigDecimal b) {
+        return a.multiply(b);
+    }
+
+    public BigDecimal divide(BigDecimal a, BigDecimal b) {
+        if (b.signum() == 0) {
+            throw new ArithmeticException("Division by zero");
+        }
+        return a.divide(b);
     }
 }

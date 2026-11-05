@@ -49,4 +49,9 @@ class CalculatorTest {
         ArithmeticException e = assertThrows(ArithmeticException.class, () -> calculator.divide(n("1"), n("0")));
         assertEquals("Division by zero", e.getMessage());
     }
+
+    @Test
+    void calculatesSimpleExpression() {
+        assertResult("5", calculator.calculate("2 + 3"));
+    }
 }

@@ -80,4 +80,10 @@ class CalculatorTest {
     void calculatesExpressionWithParentheses(String expression, String expected) {
         assertResult(expected, calculator.calculate(expression));
     }
+
+    @ParameterizedTest
+    @CsvSource({"-5 + 2, -3", "2 * -3, -6", "-(2 + 3), -5"})
+    void supportsUnaryMinus(String expression, String expected) {
+        assertResult(expected, calculator.calculate(expression));
+    }
 }

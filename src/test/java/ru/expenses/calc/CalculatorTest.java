@@ -2,11 +2,13 @@ package ru.expenses.calc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class CalculatorTest {
 
@@ -58,5 +60,12 @@ class CalculatorTest {
     @Test
     void calculatesExpressionWithoutSpacesBetweenTokens() {
         assertResult("14", calculator.calculate("  7*2 "));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", "2 + + 3", "abc"})
+    void rejectsInvalidExpression(String expression) {
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
+        assertTrue(e.getMessage().startsWith("Invalid expression"), e.getMessage());
     }
 }

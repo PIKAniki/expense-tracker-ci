@@ -17,4 +17,9 @@ class CalculatorTest {
     void addsNegativeAndPositiveNumber() {
         assertEquals(-3, calculator.add(-4, 1));
     }
+
+    @Test
+    void subtractsNumbers() {
+        assertEquals(6, calculator.subtract(10, 4));
+    }
 }

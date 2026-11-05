@@ -6,34 +6,66 @@ import java.util.List;
 
 /**
  * Разбирает арифметическое выражение из строки и вычисляет его с помощью {@link Calculator}.
+ * Разбор выполняется рекурсивным спуском: выражение – сумма слагаемых, слагаемое – произведение чисел,
+ * поэтому умножение и деление выполняются раньше сложения и вычитания.
  */
 class ExpressionParser {
 
     private final Calculator calculator;
+    private final String expression;
+    private final List<String> tokens;
+    private int pos;
 
-    ExpressionParser(Calculator calculator) {
+    ExpressionParser(Calculator calculator, String expression) {
         this.calculator = calculator;
+        this.expression = expression;
+        this.tokens = tokenize(expression);
     }
 
-    BigDecimal evaluate(String expression) {
-        List<String> tokens = tokenize(expression);
-        if (tokens.size() != 3 || !isNumber(tokens.get(0)) || !isNumber(tokens.get(2))) {
-            throw invalid(expression);
+    BigDecimal evaluate() {
+        BigDecimal result = parseExpression();
+        if (pos != tokens.size()) {
+            throw invalid();
         }
-        BigDecimal a = new BigDecimal(tokens.get(0));
-        BigDecimal b = new BigDecimal(tokens.get(2));
-        return switch (tokens.get(1)) {
-            case "+" -> calculator.add(a, b);
-            case "*" -> calculator.multiply(a, b);
-            default -> throw invalid(expression);
-        };
+        return result;
+    }
+
+    private BigDecimal parseExpression() {
+        BigDecimal result = parseTerm();
+        while (peek("+") || peek("-")) {
+            String op = tokens.get(pos++);
+            BigDecimal right = parseTerm();
+            result = op.equals("+") ? calculator.add(result, right) : calculator.subtract(result, right);
+        }
+        return result;
+    }
+
+    private BigDecimal parseTerm() {
+        BigDecimal result = parseNumber();
+        while (peek("*") || peek("/")) {
+            String op = tokens.get(pos++);
+            BigDecimal right = parseNumber();
+            result = op.equals("*") ? calculator.multiply(result, right) : calculator.divide(result, right);
+        }
+        return result;
+    }
+
+    private BigDecimal parseNumber() {
+        if (pos >= tokens.size() || !isNumber(tokens.get(pos))) {
+            throw invalid();
+        }
+        return new BigDecimal(tokens.get(pos++));
+    }
+
+    private boolean peek(String token) {
+        return pos < tokens.size() && tokens.get(pos).equals(token);
     }
 
     private static boolean isNumber(String token) {
         return token.matches("\\d+(\\.\\d+)?");
     }
 
-    private static IllegalArgumentException invalid(String expression) {
+    private IllegalArgumentException invalid() {
         return new IllegalArgumentException("Invalid expression: " + expression);
     }
 

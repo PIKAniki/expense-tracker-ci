@@ -28,6 +28,6 @@ public class Calculator {
     }
 
     public BigDecimal calculate(String expression) {
-        return new ExpressionParser(this).evaluate(expression);
+        return new ExpressionParser(this, expression).evaluate();
     }
 }

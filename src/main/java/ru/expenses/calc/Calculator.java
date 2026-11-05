@@ -26,4 +26,9 @@ public class Calculator {
         }
         return a.divide(b, SCALE, RoundingMode.HALF_UP);
     }
+
+    public BigDecimal calculate(String expression) {
+        String[] parts = expression.split(" ");
+        return add(new BigDecimal(parts[0]), new BigDecimal(parts[2]));
+    }
 }

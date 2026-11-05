@@ -6,8 +6,8 @@ import java.util.List;
 
 /**
  * Разбирает арифметическое выражение из строки и вычисляет его с помощью {@link Calculator}.
- * Разбор выполняется рекурсивным спуском: выражение – сумма слагаемых, слагаемое – произведение чисел,
- * поэтому умножение и деление выполняются раньше сложения и вычитания.
+ * Разбор выполняется рекурсивным спуском: выражение – сумма слагаемых, слагаемое – произведение множителей,
+ * множитель – число или выражение в скобках, поэтому умножение и деление выполняются раньше сложения и вычитания.
  */
 class ExpressionParser {
 
@@ -41,13 +41,26 @@ class ExpressionParser {
     }
 
     private BigDecimal parseTerm() {
-        BigDecimal result = parseNumber();
+        BigDecimal result = parseFactor();
         while (peek("*") || peek("/")) {
             String op = tokens.get(pos++);
-            BigDecimal right = parseNumber();
+            BigDecimal right = parseFactor();
             result = op.equals("*") ? calculator.multiply(result, right) : calculator.divide(result, right);
         }
         return result;
+    }
+
+    private BigDecimal parseFactor() {
+        if (peek("(")) {
+            pos++;
+            BigDecimal result = parseExpression();
+            if (!peek(")")) {
+                throw invalid();
+            }
+            pos++;
+            return result;
+        }
+        return parseNumber();
     }
 
     private BigDecimal parseNumber() {

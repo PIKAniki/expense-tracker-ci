@@ -1,6 +1,7 @@
 package ru.expenses.calc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -31,5 +32,11 @@ class CalculatorTest {
     @Test
     void dividesNumbers() {
         assertEquals(3, calculator.divide(12, 4));
+    }
+
+    @Test
+    void rejectsDivisionByZero() {
+        ArithmeticException e = assertThrows(ArithmeticException.class, () -> calculator.divide(1, 0));
+        assertEquals("Division by zero", e.getMessage());
     }
 }

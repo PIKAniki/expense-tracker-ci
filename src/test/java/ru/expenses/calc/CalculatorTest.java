@@ -54,4 +54,9 @@ class CalculatorTest {
     void calculatesSimpleExpression() {
         assertResult("5", calculator.calculate("2 + 3"));
     }
+
+    @Test
+    void calculatesExpressionWithoutSpacesBetweenTokens() {
+        assertResult("14", calculator.calculate("  7*2 "));
+    }
 }

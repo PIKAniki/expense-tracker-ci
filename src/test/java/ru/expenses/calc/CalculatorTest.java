@@ -74,4 +74,10 @@ class CalculatorTest {
     void respectsOperatorPrecedence(String expression, String expected) {
         assertResult(expected, calculator.calculate(expression));
     }
+
+    @ParameterizedTest
+    @CsvSource({"(2 + 3) * 4, 20", "2 * (3 + (4 - 1)), 12"})
+    void calculatesExpressionWithParentheses(String expression, String expected) {
+        assertResult(expected, calculator.calculate(expression));
+    }
 }

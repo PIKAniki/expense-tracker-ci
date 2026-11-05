@@ -5,6 +5,9 @@ import java.math.RoundingMode;
 
 public class Calculator {
 
+    /** Число знаков после запятой в результате деления. */
+    static final int SCALE = 10;
+
     public BigDecimal add(BigDecimal a, BigDecimal b) {
         return a.add(b);
     }
@@ -21,6 +24,6 @@ public class Calculator {
         if (b.signum() == 0) {
             throw new ArithmeticException("Division by zero");
         }
-        return a.divide(b, 10, RoundingMode.HALF_UP);
+        return a.divide(b, SCALE, RoundingMode.HALF_UP);
     }
 }
